@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>todolist</title>
+</head>
+<body>
+    <h1>ToDoList</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Добавить задачу</button>
+    </form>
+    <ul>
+        {% for task in tasks %}
+        <li>
+            {% if task.completed %}
+                <s>{{ task.title }}</s>
+            {% else %}
+                {{ task.title }} {{ task.created_at }}
+                <a href="{% url 'complete_task' task.id %}">Выполнена</a>
+            {% endif %}
+            <a href="{% url 'delete_task' task.id %}">Удалить</a>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
